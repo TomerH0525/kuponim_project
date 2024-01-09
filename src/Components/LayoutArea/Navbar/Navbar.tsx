@@ -12,8 +12,6 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import { Icon, SvgIcon, createSvgIcon } from '@mui/material';
-import { ReactComponent as MyIcon } from "../../../..public/Icon_PeelAndReveal.svg";
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -38,15 +36,15 @@ function Navbar(): JSX.Element {
       setAnchorElUser(null);
     };
 
-    const PeelAndRevealIcon = createSvgIcon(<MyIcon/>,"my Icon")
 
     return (
         <AppBar position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <SvgIcon>
+            <img src={"Design-removebg-preview.png"}height={90}/>
+            {/* <SvgIcon>
                 <PeelAndRevealIcon/>
-            </SvgIcon>
+            </SvgIcon> */}
             <Typography
               variant="h6"
               noWrap
