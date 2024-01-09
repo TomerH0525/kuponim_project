@@ -11,15 +11,18 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Home', 'Blog'];
+const settings = ['MyDetails', 'Login'];
 
 function Navbar(): JSX.Element {
 
-    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+    const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+
+    const navigate = useNavigate();
   
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
       setAnchorElNav(event.currentTarget);
@@ -38,39 +41,36 @@ function Navbar(): JSX.Element {
 
 
     return (
-        <AppBar position="static">
-        <Container maxWidth="xl">
+        <AppBar position="static" sx={{backgroundColor:"#ffd600"}}>
+        <Container maxWidth={false} >
           <Toolbar disableGutters>
-            <img src={"Design-removebg-preview.png"}height={90}/>
-            {/* <SvgIcon>
-                <PeelAndRevealIcon/>
-            </SvgIcon> */}
+            <img src={"Design-removebg-preview.png"}height={100} width={110}/>
             <Typography
-              variant="h6"
+              variant="h5"
               noWrap
               component="a"
-              href="#app-bar-with-responsive-menu"
+              href="/"
               sx={{
-                mr: 2,
+                mr: 3,
                 display: { xs: 'none', md: 'flex' },
                 fontFamily: 'monospace',
-                fontWeight: 700,
-                letterSpacing: '.1rem',
-                color: 'inherit',
+                fontWeight: 900,
+                letterSpacing: '.2rem',
+                color: "black",
                 textDecoration: 'none',
               }}
             >
-              PeelAndReveal
+              Peel&Reveal
             </Typography>
   
-            <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+            <Box sx={{ flexGrow: 0.5, display: { xs: 'flex', md: 'none' } }}>
               <IconButton
                 size="large"
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 onClick={handleOpenNavMenu}
-                color="inherit"
+                sx={{color:"black"}}
               >
                 <MenuIcon />
               </IconButton>
@@ -90,40 +90,41 @@ function Navbar(): JSX.Element {
                 onClose={handleCloseNavMenu}
                 sx={{
                   display: { xs: 'block', md: 'none' },
+                  color:"black"
                 }}
               >
                 {pages.map((page) => (
                   <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
+                    <Typography textAlign="center" sx={{color:"black"}}>{page}</Typography>
                   </MenuItem>
                 ))}
               </Menu>
             </Box>
-            <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
             <Typography
               variant="h5"
               noWrap
               component="a"
-              href="#app-bar-with-responsive-menu"
+              href='/'
               sx={{
-                mr: 2,
+                mr: 0,
                 display: { xs: 'flex', md: 'none' },
                 flexGrow: 1,
                 fontFamily: 'monospace',
                 fontWeight: 700,
-                letterSpacing: '.3rem',
-                color: 'inherit',
+                letterSpacing: '.2rem',
+                color: 'black',
                 textDecoration: 'none',
+                
               }}
             >
-              LOGO
+              Peel&Reveal
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               {pages.map((page) => (
                 <Button
                   key={page}
                   onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
+                  sx={{ my: 4, color: 'black', display: 'block' }}
                 >
                   {page}
                 </Button>
@@ -153,8 +154,8 @@ function Navbar(): JSX.Element {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
+                  <MenuItem key={setting} onClick={() => navigate("/login")} >
+                    <Typography textAlign="center"  >{setting}</Typography>
                   </MenuItem>
                 ))}
               </Menu>

@@ -3,6 +3,18 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import Layout from './Components/LayoutArea/Layout/Layout';
+import 'react-toastify/dist/ReactToastify.css';
+import { authStore } from './Components/Redux/AuthStore';
+import axios from 'axios';
+
+function interceptors(){
+  axios.interceptors.request.use(request => {
+      if(authStore.getState().token.length > 0)
+          request.headers["Authorization"] = /*"Bearer " + */authStore.getState().token;
+      return request;
+  })
+}
+interceptors();
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
