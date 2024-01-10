@@ -41,10 +41,10 @@ function Navbar(): JSX.Element {
 
 
     return (
-        <AppBar position="static" sx={{backgroundColor:"#ffd600"}}>
+        <AppBar position="static" sx={{backgroundColor:"#f9a825", height:"95px"}}>
         <Container maxWidth={false} >
-          <Toolbar disableGutters>
-            <img src={"Design-removebg-preview.png"}height={100} width={110}/>
+          <Toolbar disableGutters sx={{marginLeft:2}}>
+            <img src={"Design-removebg-preview.png"}height={90} width={100}/>
             <Typography
               variant="h5"
               noWrap
@@ -124,7 +124,7 @@ function Navbar(): JSX.Element {
                 <Button
                   key={page}
                   onClick={handleCloseNavMenu}
-                  sx={{ my: 4, color: 'black', display: 'block' }}
+                  sx={{ my: 4, color: 'black', display: 'block' , marginLeft:0.5 }}
                 >
                   {page}
                 </Button>
@@ -133,8 +133,8 @@ function Navbar(): JSX.Element {
   
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 , marginRight:8}}>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" sx={{border:"black solid", borderWidth:2}} />
                 </IconButton>
               </Tooltip>
               <Menu
@@ -154,7 +154,7 @@ function Navbar(): JSX.Element {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={() => navigate("/login")} >
+                  <MenuItem key={setting} onClick={() => {setAnchorElUser(null); navigate("/login");} } >
                     <Typography textAlign="center"  >{setting}</Typography>
                   </MenuItem>
                 ))}

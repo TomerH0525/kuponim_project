@@ -2,3 +2,18 @@
 
      text-align: center;
 }
+
+.MuiPaper-root{
+     /* background-color: rgba(0, 0, 0.5, 0); */
+}
+.LoginPage{
+     display: flex;
+     justify-content: center;
+     margin-top: 5%;
+
+}
+
+.MuiOutlinedInput-root.Mui-focused:focus {
+          border-color: 'green';
+        }
+ 

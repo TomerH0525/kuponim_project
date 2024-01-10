@@ -12,6 +12,8 @@ class AuthService{
         // (appConfig.url+"/auth/login"
         // ,null /* this is request body */
         // ,{params: {"email":email, "password":password, "clientType":ClientType[clientType]}}); //sending as params
+        console.log(user);
+        
         const response = await axios.post<string>(appConfig.url+"/auth/login"
         ,user);//"email":user.email, "password":user.password, "clientType":ClientType[user.role]
          //sending it as an object with these params inside

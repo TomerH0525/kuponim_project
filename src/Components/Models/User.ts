@@ -5,10 +5,10 @@ class User{
     public password: string;
     public clientType: ClientType;
 
-    constructor(email: string, password: string, role: number){
+    constructor(email: string, password: string, clientType: ClientType){
         this.email = email;
         this.password = password;
-        this.clientType = role;
+        this.clientType = clientType;
     }
 }
 
