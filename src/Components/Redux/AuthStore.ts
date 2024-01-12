@@ -18,18 +18,18 @@ export const authSlice = createSlice({
     initialState: initState,
     reducers: {
         login: (state, action: PayloadAction<string>) => {
-                state.token = action.payload;
 
-                sessionStorage.setItem("token", state.token)
-
-                const jsonFromToken: {user: User} = jwtDecode(action.payload)
-                state.user = jsonFromToken.user;
-                console.log(jsonFromToken);
+            sessionStorage.setItem("token", action.payload)
+            const jsonFromToken: {user: User} = jwtDecode(action.payload)
+            state.user = jsonFromToken.user;
+            state.token = action.payload;
+            
         },
         
         logout: (state) => {
-            state.token = sessionStorage.getItem("token") ? sessionStorage.getItem("token") : "" ;
+            state.token = "" ;
             state.user = null;
+            sessionStorage.removeItem("token");
         },
 
     }
