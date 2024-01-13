@@ -9,8 +9,8 @@ export interface AuthState{
 
 
 const initState: AuthState = {
-    user: sessionStorage.getItem("token") ? jwtDecode(sessionStorage.getItem("token")) : null,
-    token: sessionStorage.getItem("token") ? sessionStorage.getItem("token") : ""
+    user: (sessionStorage.getItem("token") !== null ? jwtDecode<User>(sessionStorage.getItem("token")) : null),
+    token: (sessionStorage.getItem("token") !== null ? sessionStorage.getItem("token") : ""),
 }
 
 export const authSlice = createSlice({
@@ -19,9 +19,8 @@ export const authSlice = createSlice({
     reducers: {
         login: (state, action: PayloadAction<string>) => {
 
-            sessionStorage.setItem("token", action.payload)
-            const jsonFromToken: {user: User} = jwtDecode(action.payload)
-            state.user = jsonFromToken.user;
+            sessionStorage.setItem("token", action.payload)            
+            state.user = jwtDecode(action.payload);
             state.token = action.payload;
             
         },
@@ -32,9 +31,9 @@ export const authSlice = createSlice({
             sessionStorage.removeItem("token");
         },
 
-    }
 
-})
+}})
+
 
 export const {login, logout} = authSlice.actions;
 export default authSlice.reducer;

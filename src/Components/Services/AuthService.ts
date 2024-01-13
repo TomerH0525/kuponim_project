@@ -18,7 +18,7 @@ class AuthService{
     public async logout(){
         const response = await axios.post<string>(appConfig.url+"/auth/logout");
         authStore.dispatch(logout());
-        toast.success(response.status.toString());
+        toast.success(response.data);
     }
 }
 

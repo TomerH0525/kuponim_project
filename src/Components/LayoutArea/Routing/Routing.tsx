@@ -1,7 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 import "./Routing.css";
-import Login from "../../LoginArea/Login/Login";
+import Login from "../../Pages/LoginPage/Login";
 import Layout from "../Layout/Layout";
+import MyDetails from "../../Pages/MyDetails/MyDetails";
 
 function Routing(): JSX.Element {
     return (
@@ -9,6 +10,7 @@ function Routing(): JSX.Element {
 			<Routes>
                 
                 <Route path="/login" element={<Login/>}/>
+                <Route path="/MyDetails" element={<MyDetails/>} />
                 <Route path="/" element={null}/>
             </Routes>
         </div>

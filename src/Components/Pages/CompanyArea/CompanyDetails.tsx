@@ -16,6 +16,7 @@ function CompanyDetails(): JSX.Element {
 
     return (
         <div className="CompanyDetails">
+            Im Company!
 			{company &&
              
                 <><h1>{company.name}</h1><h2>{company.email}</h2><h3>{company.id}</h3></>

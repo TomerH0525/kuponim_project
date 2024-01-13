@@ -5,7 +5,7 @@ class CompanyService{
     
 
     public async getCompanyDetails(){
-        const response = (await axios.get(appConfig.url+"/company"))
+        const response = (await axios.get(appConfig.url+"/company/details"))
         return response.data
     }
 }
