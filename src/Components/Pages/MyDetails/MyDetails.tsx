@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import User from "../../Models/User";
 import "./MyDetails.css";
 import { authStore } from "../../Redux/AuthStore";
-import CompanyDetails from "../CompanyArea/CompanyDetails";
+import CompanyDetails from "../CompanyArea/CompanyDetails/CompanyDetails";
 import ClientType from "../../Models/ClientType";
 import CustomerDetails from "../CustomerArea/CustomerDetails/CustomerDetails";
 import AdminDetails from "../AdminArea/AdminDetails/AdminDetails";
@@ -33,7 +33,7 @@ useEffect(() => {
         <div className="MyDetails">
         {loggedUser !== null ? (
             <>
-                {(() => {
+                {() => {
                     switch (loggedUser.clientType) {
                         case ClientType.Company:
                             return <CompanyDetails />;
@@ -47,9 +47,9 @@ useEffect(() => {
                         default:
                              return (toast.warning("You must login to access this page!"),navigate("/login"))
                     }
-                })()}
+                }}
             </>
-        ) : null}
+        ) : "must login"}
     </div>
     );
 }

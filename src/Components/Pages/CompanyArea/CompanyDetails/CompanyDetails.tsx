@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./CompanyDetails.css";
-import Company from "../../Models/Company";
-import companyService from "../../Services/CompanyService";
+import Company from "../../../Models/Company";
+import companyService from "../../../Services/CompanyService";
 
 
 function CompanyDetails(): JSX.Element {
