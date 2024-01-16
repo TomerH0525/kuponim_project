@@ -42,15 +42,15 @@ function Navbar(): JSX.Element {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
 
   useEffect(() => {
-    console.log(authStore.getState().user);
     setLoggedUser(authStore.getState().user);
+    console.log(loggedUser);
+
 
     authStore.subscribe(() => {
       console.log(authStore.getState().user);
