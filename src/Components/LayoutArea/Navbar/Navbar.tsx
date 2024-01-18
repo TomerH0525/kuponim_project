@@ -128,8 +128,10 @@ function Navbar(): JSX.Element {
             component="a"
             href='/'
             sx={{
+              display: { xs: 'flex', md: 'none' },
+              justifyContent:"center",
+              alignContent:"center",
               textAlign:"center",
-              display: { xs: 'flex', md: 'flex ' },
               flexGrow: 1,
               fontFamily: 'monospace',
               fontWeight: 700,
