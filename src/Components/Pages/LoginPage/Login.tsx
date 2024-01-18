@@ -41,12 +41,13 @@ function Login(): JSX.Element {
   }
 
   return (
-    <div className="LoginPage">
+    <div className="LoginPage" >
       <Paper elevation={15} onSubmit={handleSubmit(sendLogin)}
         sx={{
-          width: 500,
-          height: 400,
-          paddingTop: 6,
+          width: '35%',
+          height: '80%',
+          minWidth:350,
+          paddingTop: 0,
           display: "flex",
           flexDirection: "column",
           backgroundColor: 'rgba(255, 183, 77 ,0.5)' ,
@@ -59,7 +60,7 @@ function Login(): JSX.Element {
           textAlign: 'center',
         }}>
 
-        <Typography component="h1" variant="h5" marginBottom={2}>
+        <Typography component="h2" variant="h4" marginBottom={2} fontWeight={700}>
           Welcome Back
         </Typography>
 

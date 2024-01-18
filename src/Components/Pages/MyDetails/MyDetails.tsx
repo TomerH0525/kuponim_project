@@ -7,6 +7,7 @@ import ClientType from "../../Models/ClientType";
 import AdminDetails from "../AdminArea/AdminDetails/AdminDetails";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import CustomerDetails from "../CustomerArea/CustomerDetails/CustomerDetails";
 
 
 
@@ -14,22 +15,27 @@ import { toast } from "react-toastify";
 function MyDetails(): JSX.Element {
 
     const navigate = useNavigate();
-    const [loggedUser, setLoggedUser] = useState<User>(null);
+    const [loggedUser, setLoggedUser] = useState<User>(authStore.getState().user);
+
+    
     
     useEffect(() => {
-      setLoggedUser(authStore.getState().user);
-    }, []);
+
+      if (loggedUser === null || loggedUser === undefined) {
+        toast.warning("You must login to access this page!");
+        navigate("/login");
+      }
+
+      authStore.subscribe(() => {
+        setLoggedUser(authStore.getState().user)
+      })
+
+    }, [loggedUser]);    
     
-    console.log(authStore.getState().user);
-    console.log(loggedUser);
-    
-    if (loggedUser === null) {
-      toast.warning("You must login to access this page!");
-      navigate("/login");
-    }
+ 
     
     const returnComponent:any = (() =>{
-        if(loggedUser !== null ) {
+        if(loggedUser !== null && loggedUser !== undefined ) {
             switch (loggedUser.clientType) {
                 case ClientType.Administrator:
                     return <AdminDetails/>
@@ -38,7 +44,7 @@ function MyDetails(): JSX.Element {
                     return <CompanyDetails/>
     
                 case ClientType.Customer:
-                    return <CompanyDetails/>
+                    return <CustomerDetails/>
     
                 default:
                     

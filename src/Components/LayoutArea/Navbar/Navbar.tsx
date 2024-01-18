@@ -26,7 +26,7 @@ function Navbar(): JSX.Element {
 
   const navigate = useNavigate();
 
-  const [loggedUser, setLoggedUser] = useState<User>(null);
+  const [loggedUser, setLoggedUser] = useState<User>(authStore.getState().user);
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -46,10 +46,10 @@ function Navbar(): JSX.Element {
     setAnchorElUser(null);
   };
 
-
+  let windowWidth = window.innerWidth;
+  console.log(windowWidth);
+  
   useEffect(() => {
-    setLoggedUser(authStore.getState().user);
-    console.log(loggedUser);
 
 
     authStore.subscribe(() => {
@@ -57,14 +57,15 @@ function Navbar(): JSX.Element {
       
       setLoggedUser(authStore.getState().user);
     })
-  }, []);
+  }, [loggedUser]);
 
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: "#f9a825", height: "95px" }}>
+    <AppBar position="static" sx={{ backgroundColor: "#f9a825", height: "10%" }}>
       <Container maxWidth={false} >
-        <Toolbar disableGutters sx={{ marginLeft: 2 }}>
-          <img src={"Design-removebg-preview.png"} height={90} width={100} />
+        <Toolbar disableGutters sx={{ marginLeft: 0 }}>
+          {window.innerWidth > 600 ? <img src={"Design-removebg-preview.png"} height={90} width={100} /> : null}
+          
           <Typography
             variant="h5"
             noWrap
@@ -72,7 +73,7 @@ function Navbar(): JSX.Element {
             onClick={() => navigate("/")}
             sx={{
               cursor: "pointer",
-              mr: 3,
+              mr: 0,
               display: { xs: 'none', md: 'flex' },
               fontFamily: 'monospace',
               fontWeight: 900,
@@ -84,7 +85,7 @@ function Navbar(): JSX.Element {
             Peel&Reveal
           </Typography>
 
-          <Box sx={{ flexGrow: 0.5, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 0.5, display: { xs: 'flex', md: 'none' }, maxWidth:48 }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -127,12 +128,12 @@ function Navbar(): JSX.Element {
             component="a"
             href='/'
             sx={{
-              mr: 0,
-              display: { xs: 'flex', md: 'none' },
+              textAlign:"center",
+              display: { xs: 'flex', md: 'flex ' },
               flexGrow: 1,
               fontFamily: 'monospace',
               fontWeight: 700,
-              letterSpacing: '.2rem',
+              letterSpacing: '0rem',
               color: 'black',
               textDecoration: 'none',
 
@@ -140,7 +141,7 @@ function Navbar(): JSX.Element {
           >
             Peel&Reveal
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }}}>
             {pages.map((page) => (
               <Button
                 key={page}
@@ -157,7 +158,7 @@ function Navbar(): JSX.Element {
             }
             <Tooltip title="Open settings">
 
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, marginRight: 8 }}>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, marginRight: 1 }}>
 
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" sx={{ border: "black solid", borderWidth: 2 }} />
               </IconButton>
