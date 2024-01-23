@@ -34,7 +34,8 @@ function Login(): JSX.Element {
     setLoading(true);
     setTimeout(() => {
             authService.login(user)
-          .then(() => {setLoading(false); toast.success("Logged in successfully"); navigate("/"); })
+          .then(() => {setLoading(false);console.log(user);
+           toast.success("Logged in successfully"); navigate("/"); })
           .catch(err => {errorHandler.showError(err); setLoading(false);});
         }, 1000);
 
