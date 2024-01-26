@@ -6,6 +6,7 @@ import { Typography } from '@mui/material';
 import { Tab } from '@mui/material';
 import { Box } from '@mui/material';
 import { Tabs } from '@mui/material';
+import LeftPanel from "../../MyDetails/LeftPannel/LeftPannel";
 
 
 function CompanyDetails(): JSX.Element {
@@ -60,25 +61,10 @@ function CompanyDetails(): JSX.Element {
     }, [])
 
     return (
-
-            <Box sx={{height:"100%"}}>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider', display:"flex"  }} >
-                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" orientation="vertical">
-                        <Tab label="Item One" {...a11yProps(0)} />
-                        <Tab label="Item Two" {...a11yProps(1)} />
-                        <Tab label="Item Three" {...a11yProps(2)} />
-                    </Tabs>
-                </Box>
-                <CustomTabPanel value={value} index={0}>
-                    Item One
-                </CustomTabPanel>
-                <CustomTabPanel value={value} index={1}>
-                    Item Two
-                </CustomTabPanel>
-                <CustomTabPanel value={value} index={2}>
-                    Item Three
-                </CustomTabPanel>
-            </Box>
+        <>
+            <LeftPanel />
+            <span>blah</span>
+        </>
 
     );
 }
