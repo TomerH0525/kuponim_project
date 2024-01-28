@@ -61,7 +61,7 @@ function Navbar(): JSX.Element {
 
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: "#f9a825", height: "10%" }}>
+    <AppBar position="sticky" sx={{ backgroundColor: "#f9a825", height: "10%" }}>
       <Container maxWidth={false} >
         <Toolbar disableGutters sx={{ marginLeft: 0 }}>
           {window.innerWidth > 600 ? <img src={"Design-removebg-preview.png"} height={90} width={100} /> : null}

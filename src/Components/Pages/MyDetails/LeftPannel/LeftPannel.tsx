@@ -19,7 +19,7 @@ interface TabPanelProps {
         {...other}
       >
         {value === index && (
-          <Box sx={{ p: 3 }}>
+          <Box sx={{ p: 3 , height:"100%"}}>
             <Typography>{children}</Typography>
           </Box>
         )}
@@ -43,15 +43,15 @@ interface TabPanelProps {
   
     return (
       <Box
-        sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 224 }}
+        sx={{ flexGrow: 1,display:"flex",flexDirection:"column", height:"100%"}}
       >
         <Tabs
-          orientation="vertical"
+          orientation="horizontal"
           variant="scrollable"
           value={value}
           onChange={handleChange}
           aria-label="Vertical tabs example"
-          sx={{ borderRight: 1, borderColor: 'divider' }}
+          sx={{ borderBottom: 1, borderColor: 'divider', height:"100%" , backgroundColor:"#fb8c00", display:"flex", alignContent:"end"}}
         >
           <Tab label="Item One" {...a11yProps(0)} />
           <Tab label="Item Two" {...a11yProps(1)} />

@@ -45,13 +45,13 @@ function Login(): JSX.Element {
     <div className="LoginPage" >
       <Paper elevation={15} onSubmit={handleSubmit(sendLogin)}
         sx={{
-          width: '35%',
-          height: '80%',
+          width: '32%',
+          height: '88%',
           minWidth:350,
           paddingTop: 0,
           display: "flex",
           flexDirection: "column",
-          backgroundColor: 'rgba(255, 183, 77 ,0.5)' ,
+          backgroundColor: 'rgba(255, 160, 0 ,0.5)' ,
           backdropFilter: 'blur(150px)',
           opacity:0.8,
           border:"black solid",
