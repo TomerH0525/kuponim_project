@@ -10,7 +10,7 @@ function CompanyDetails(): JSX.Element {
 
     useEffect(() =>  {
         companyService.getCompanyDetails()
-        .then( comp => setCompany(comp))
+        .then( comp => {setCompany(comp); console.log(comp)})
         .catch()
     })
 
