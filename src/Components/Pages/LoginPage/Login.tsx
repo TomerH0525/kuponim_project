@@ -34,7 +34,8 @@ function Login(): JSX.Element {
     setLoading(true);
     setTimeout(() => {
             authService.login(user)
-          .then(() => {setLoading(false); toast.success("Logged in successfully"); navigate("/"); })
+          .then(() => {setLoading(false);console.log(user);
+           toast.success("Logged in successfully"); navigate("/"); })
           .catch(err => {errorHandler.showError(err); setLoading(false);});
         }, 1000);
 
@@ -45,12 +46,12 @@ function Login(): JSX.Element {
       <Paper elevation={15} onSubmit={handleSubmit(sendLogin)}
         sx={{
           width: '35%',
-          height: '90%',
+          height: '80%',
           minWidth:350,
           paddingTop: 0,
           display: "flex",
           flexDirection: "column",
-          backgroundColor: 'rgba(255, 183, 77 ,0.5)' ,
+          backgroundColor: 'rgba(255, 160, 0 ,0.5)' ,
           backdropFilter: 'blur(150px)',
           opacity:0.8,
           border:"black solid",
