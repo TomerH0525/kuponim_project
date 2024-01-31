@@ -51,7 +51,7 @@ function Login(): JSX.Element {
           paddingTop: 0,
           display: "flex",
           flexDirection: "column",
-          backgroundColor: 'rgba(255, 160, 0 ,0.5)' ,
+          backgroundColor: 'rgba(255, 160, 0 ,0.6)' ,
           backdropFilter: 'blur(150px)',
           opacity:0.8,
           border:"black solid",

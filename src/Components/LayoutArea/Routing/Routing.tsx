@@ -3,6 +3,7 @@ import "./Routing.css";
 import Login from "../../Pages/LoginPage/Login";
 import Layout from "../Layout/Layout";
 import MyDetails from "../../Pages/MyDetails/MyDetails";
+import Home from "../../Pages/Home/Home";
 
 function Routing(): JSX.Element {
     return (
@@ -11,7 +12,7 @@ function Routing(): JSX.Element {
                 
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/MyDetails" element={<MyDetails/>} />
-                <Route path="/" element={null}/>
+                <Route path="" element={<Home />}/>
             </Routes>
         </div>
     );
