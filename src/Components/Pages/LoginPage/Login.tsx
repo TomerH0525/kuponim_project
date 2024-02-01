@@ -45,8 +45,8 @@ function Login(): JSX.Element {
     <div className="LoginPage" >
       <Paper elevation={15} onSubmit={handleSubmit(sendLogin)}
         sx={{
-          width: '35%',
-          height: '80%',
+          width: '30%',
+          height: '90%',
           minWidth:350,
           paddingTop: 0,
           display: "flex",
