@@ -1,0 +1,6 @@
+.CouponCard {
+    display: flex;
+    justify-content:left;
+    flex-wrap: wrap;
+    height: auto;
+}

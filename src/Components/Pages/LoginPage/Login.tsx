@@ -34,7 +34,7 @@ function Login(): JSX.Element {
     setLoading(true);
     setTimeout(() => {
             authService.login(user)
-          .then(() => {setLoading(false);console.log(user);
+          .then(() => {setLoading(false);
            toast.success("Logged in successfully"); navigate("/"); })
           .catch(err => {errorHandler.showError(err); setLoading(false);});
         }, 1000);
@@ -51,9 +51,9 @@ function Login(): JSX.Element {
           paddingTop: 0,
           display: "flex",
           flexDirection: "column",
-          backgroundColor: 'rgba(255, 160, 0 ,0.6)' ,
+          backgroundColor: 'rgba(255, 160, 0 ,0.3)' ,
           backdropFilter: 'blur(150px)',
-          opacity:0.8,
+          opacity:0.9,
           border:"black solid",
           verticalAlign: 'middle',
           justifyContent:"center",
@@ -61,7 +61,7 @@ function Login(): JSX.Element {
           textAlign: 'center',
         }}>
 
-        <Typography component="h2" variant="h4" marginBottom={2} fontWeight={700}>
+        <Typography component="h2" variant="h4" marginBottom={2} >
           Welcome Back
         </Typography>
 
@@ -71,12 +71,12 @@ function Login(): JSX.Element {
               required
                 sx={{
                   width: 300,
-                  "& label.Mui-focused": { color: "black" , fontWeight: 700 },
-                  "& .MuiOutlinedInput-root": { "&.Mui-focused fieldset": { borderColor: "black" },
+                  "& label.Mui-focused": { color: "black" , fontWeight: 700, },
+                  "& .MuiOutlinedInput-root": { "&.Mui-focused fieldset": { borderColor: "black",  },
                 }}}
                   id="email"
                     label="Email Address"
-                      InputLabelProps={{sx:{color: "black"},}}
+                      InputLabelProps={{sx:{color: "black", fontWeight:700}}}
                         name="email"
                           InputProps={{sx:{fontWeight:700}}}
                             autoComplete="email"
@@ -96,7 +96,7 @@ function Login(): JSX.Element {
                       '&.Mui-focused fieldset': { borderColor: 'black' }}
                     }}
                       {...register("password")}
-                        InputLabelProps={{ sx: { color: 'black', } }}
+                        InputLabelProps={{ sx: { color: 'black', fontWeight:700 } }}
                           type={showPassword ? 'text' : 'password'}
                             autoComplete="off"
                               value={password}
@@ -141,7 +141,7 @@ function Login(): JSX.Element {
                   border:"solid #212121",
                   borderWidth:1.5,
                   fontWeight:700,
-                  backgroundColor: 'rgba(255, 111, 0 ,0.5)',
+                  backgroundColor: 'rgba(255, 111, 0 ,0.4)',
                   color:"black", '&:hover': {
                   backgroundColor: "#ffa000",
                   fontWeight:700

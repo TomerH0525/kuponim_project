@@ -1,106 +1,170 @@
 import "./AddCoupon.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import companyService from "../../../Services/CompanyService";
-import { Box, Button, Input, InputLabel, Modal, TextField, TextareaAutosize } from "@mui/material";
+import { Box, Button, Input, InputAdornment, InputLabel, MenuItem, Modal, Select, TextField } from "@mui/material";
+import { useForm } from "react-hook-form";
+import Coupon from "../../../Models/Coupon";
+import errorHandler from "../../../Services/ErrorHandler";
+import { authStore, logout } from "../../../Redux/AuthStore";
+import { readAndCompressImage } from "browser-image-resizer";
+import { useNavigate } from "react-router-dom";
+import Category from "../../../Models/Category";
+
 
 function AddCoupon(): JSX.Element {
 
-    const [open, setOpen] = useState(false);
-    const [formValues, setFormValues] = useState({
-      title: '',
-      description: '',
-      price: '',
-      amount: '',
-      startDate: '',
-      endDate: '',
-    });
-  
-    const handleOpen = () => {
-      setOpen(true);
-    };
-  
-    const handleClose = () => {
-      setOpen(false);
-    };
-  
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        console.log(formValues);
-        handleClose();
-      };
-      
-      const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFormValues({
-          ...formValues,
-          [event.target.name]: event.target.value,
-        });
-      };
+  const navigate = useNavigate();
 
-    return (
-        <div className="AddCoupon">
-			<Button onClick={handleOpen}>Add Coupon</Button>
-        <Modal open={open} onClose={handleClose} sx={{display:"flex", justifyContent:"center",justifyItems:"center", alignItems:"center"}}>
-            <Box sx={{backgroundColor:"rgb(255, 253, 231, 0.9)", height:"60%" , width:"35%", minWidth:600, minHeight:500, overflow:"auto"}}>
-          <form onSubmit={handleSubmit} className="AddCustomerForm">
-            <h3>Add Coupon</h3>
+  const convertToBase64 = (blob: Blob) => {
+    return new Promise(resolve => {
+      var reader = new FileReader();
+      reader.onload = function () {
+        resolve(reader.result);
+      };
+      reader.readAsDataURL(blob);
+    });
+  };
+
+  async function sendCoupon(coupon: Coupon) {
+
+    if ((coupon.image as FileList).length > 0) {
+      console.log(coupon.image);
+      let image = await readAndCompressImage((coupon.image as FileList)[0]);
+      coupon.image = await convertToBase64(image);
+    } else {
+      coupon.image = "";
+    }
+    console.log("blah blah");
+    companyService.addCoupon(coupon)
+      .then((err) => console.log(err))
+      .catch(err => {
+        errorHandler.showError(err);
+        if (err.response && err.response.status == "401") {
+          authStore.dispatch(logout());
+          navigate("/login");
+          console.log("expired token or not recognized");
+        }
+      })
+  }
+
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const { register, handleSubmit } = useForm<Coupon>();
+
+
+
+  return (
+    <div className="AddCoupon">
+      <Button onClick={handleOpen}>Add Coupon</Button>
+      <Modal open={open} onClose={handleClose} sx={{ display: "flex", justifyContent: "center", justifyItems: "center", alignItems: "center" }}>
+        <Box sx={{ backgroundColor: "rgb(255, 253, 231, 0.9)", height: "60%", width: "35%", minWidth: 300, minHeight: 350, overflow: "auto" }}>
+          <h2>Add Coupon</h2>
+          <form onSubmit={handleSubmit(sendCoupon)} className="AddCustomerForm" >
+
             <TextField
-            sx={{maxWidth:"30%"}}
+              sx={{ width: "60%", }}
               label="Title"
-              name="title"
-              value={formValues.title}
-              onChange={handleChange}
+              id="title"
+              {...register("title")}
+              InputProps={{
+                startAdornment: <InputAdornment position="start"></InputAdornment>,
+              }}
             />
+
             <TextField
-            sx={{maxWidth:"30%"}}
+              sx={{ width: "60%", minWidth: "200px", }}
               label="Description"
-              name="description"
-              value={formValues.description}
-              onChange={handleChange}
+              id="description"
+              minRows={5}
               multiline={true}
+              maxRows={20}
+              {...register("description")}
+              InputProps={{
+                startAdornment: <InputAdornment position="start"></InputAdornment>,
+              }}
             />
-            <TextField
-            sx={{maxWidth:"30%"}}
-              label="Amount"
-              name="amount"
-              type="number"
-              value={formValues.amount}
-              onChange={handleChange}
-            />
-            <TextField
-            sx={{maxWidth:"30%"}}
-            type="number"
-              label="Price"
-              name="price"
-              value={formValues.price}
-              onChange={handleChange}
-            />
-            <div className="DateDiv">
-            <TextField
-            sx={{maxWidth:"30%"}}
-            type="date"
-              name="startDate"
-              value={formValues.startDate}
-              onChange={handleChange}
-            />
-            <TextField
-            sx={{maxWidth:"30%"}}
-            type="date"
-              name="endDate"
-              value={formValues.endDate}
-              onChange={handleChange}
-            />
+
+            <div className="inputNumberDiv">
+
+              <TextField
+                sx={{ width: "32%" }}
+                label="Amount"
+                id="amount"
+                type="number"
+                {...register("amount")}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start"></InputAdornment>,
+                }}
+              />
+
+              <TextField
+                sx={{ width: "32%" }}
+                type="number"
+                label="Price"
+                id="price"
+                {...register("price")}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start"></InputAdornment>,
+                }}
+              />
+
             </div>
-            
-            
-             <InputLabel htmlFor="image">Image</InputLabel>
-        <Input id="image" type="file" />
-        <img id="image-preview"></img>
+
+            <div className="DateDiv">
+              <TextField
+
+                sx={{ width: "35%", minWidth: "150px" }}
+                type="date"
+                id="startDate"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start"></InputAdornment>,
+                }}
+                label="startDate"
+                {...register("startDate")}
+              />
+
+              <TextField
+                sx={{ width: "34%", minWidth: "150px" }}
+                type="date"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start"></InputAdornment>,
+                }}
+                id="endDate"
+                label="endDate"
+                {...register("endDate")}
+              />
+            </div>
+            <InputLabel id="CategoryLabel">Category</InputLabel>
+            <Select
+              labelId="CategoryLabel"
+              defaultValue={Category.VACATION}
+              id="CategorySelect"
+              name="category"
+              {...register("category")}
+            >
+              {Object.keys(Category)
+                .filter(key => isNaN(Number(key)))
+                .map(key => <MenuItem {...register("category")} key={key} value={Category[key as unknown as number]}>{key}</MenuItem>)}
+
+            </Select>
+            <InputLabel htmlFor="image">Coupon Image</InputLabel>
+            <Input id="image" type="file" sx={{ width: "35%", minWidth: "220px" }} {...register("image")} />
+
+
             <Button type="submit" size="large">Submit</Button>
           </form>
-          </Box>
-        </Modal>
-        </div>
-    );
+        </Box>
+      </Modal>
+    </div>
+  );
 }
 
 export default AddCoupon;

@@ -45,9 +45,6 @@ function Navbar(): JSX.Element {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
-  let windowWidth = window.innerWidth;
-  console.log(windowWidth);
   
   useEffect(() => {
 

@@ -3,6 +3,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 class ErrorHandler{
+    
     public showError(err: any){
         if(typeof(err) == 'string'){
             toast.error(err);

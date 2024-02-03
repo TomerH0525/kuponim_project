@@ -3,7 +3,6 @@ import Company from "./Company";
 
 class Coupon{
     couponID: number;
-    company: Company;
     category: Category;
     title: string;
     description: string;
@@ -11,7 +10,7 @@ class Coupon{
     price: number;
     startDate: Date;
     endDate: Date;
-    image: string;
+    image: string | FileList | File | unknown;
 
 
 }
