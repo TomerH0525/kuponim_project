@@ -25,11 +25,18 @@ function AddCoupon(): JSX.Element {
     });
   };
 
+  const configResizeImage = {
+    quality: 1,
+    maxWidth: 640,
+    maxHeight: 480,
+    debug: true
+  };
+
   async function sendCoupon(coupon: Coupon) {
 
     if ((coupon.image as FileList).length > 0) {
       console.log(coupon.image);
-      let image = await readAndCompressImage((coupon.image as FileList)[0]);
+      let image = await readAndCompressImage((coupon.image as FileList)[0],configResizeImage);
       coupon.image = await convertToBase64(image);
     } else {
       coupon.image = "";

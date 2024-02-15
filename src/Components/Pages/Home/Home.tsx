@@ -1,9 +1,6 @@
-import { useEffect, useState } from "react";
-import Coupon from "../../Models/Coupon";
-import publicSerivce from "../../Services/PublicService";
 import "./Home.css";
-import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
 import CouponCard from "./CouponCard/CouponCard";
+import { Box } from "@mui/material";
 
 function Home(): JSX.Element {
 
@@ -11,9 +8,16 @@ function Home(): JSX.Element {
     
 
     return (
-        <div className="Home">
-        <CouponCard/>
-      </div>
+        <Box>
+
+          <div className="LeftPanel">
+            <span>HAHAHAHAHAHAHAHAHAsdasdas</span>
+          </div>
+
+          <div className="RightPanel">
+          <CouponCard/>
+          </div>
+      </Box>
       );
 }
 

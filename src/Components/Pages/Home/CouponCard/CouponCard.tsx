@@ -2,52 +2,69 @@ import { useEffect, useState } from "react";
 import "./CouponCard.css";
 import publicSerivce from "../../../Services/PublicService";
 import Coupon from "../../../Models/Coupon";
-import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typography} from "@mui/material";
+import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typography, createTheme, makeStyles} from "@mui/material";
+
+
 
 function CouponCard(): JSX.Element {
     
     const [coupons, setCoupons] = useState<Coupon[]>(null);
     
+ 
+
     useEffect(() => {
-        const fetchCoupons = async () => {
-          const coupons = await publicSerivce.getAllCoupons();
-          setCoupons(coupons);
-        };
-      
+      const fetchCoupons = async () => {
+        const coupons = await publicSerivce.getAllCoupons();
+        setCoupons(coupons);
+      };
         fetchCoupons();
         
       }, []);
+      
+
     return (
-        <div className="CouponCard">
+        <div className="MainDiv" >
+          <div className="CouponCard">
 			{coupons !== null && coupons !== undefined ? coupons.map((c) => (
-              <Card key={c.couponID} sx={{ width:"20%", minWidth:250,height:"350px",margin:5,backgroundColor:"#ffecb3"}}>
-              
+              <Card key={c.couponID} sx={{width:{md:"30%",xs:"50%"}, minWidth:{xs:"250px"},maxWidth:{xs:"350px",md:"300px"}}}>
+              <Box>
                 <CardMedia
                   component="img"
-                  height="140"
+                  height="160"
                   image={c.image as string}
                   alt={c.title+" coupon preview picture"}
                 />
+                </Box>
+                <Box display="flex" flexDirection="column" flexWrap="wrap" sx={{justifyContent:"space-between"}}>
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
+                  <Typography variant="h5" component="div" sx={{fontWeight:700,height:100,overflow:"clip",width:"100%"}}>
                     {c.title}
                   </Typography>
-                  <Typography color="text.secondary" sx={{fontSize:"12px",height:"80px",overflow: "hidden",display: "-webkit-box"
-                        ,"-webkit-line-clamp": 3,"-webkit-box-orient": "vertical",wordWrap: "break-word",
-                        overflowWrap: "break-word"}}>
-                    {c.description.length < 40 ? c.description+" Click to learn more..." : (c.description.substring(0, 126) + " Click to learn more...")}
-                  </Typography>
                 </CardContent>
-              
-              <CardActions sx={{display:"flex", justifyContent:"center"}}>
-                <Button size="small" color="primary">
-                  Add to Cart
-                </Button>
-                <Button size="small" color="primary">
+              <Box sx={{display:"flex" , alignItems:{xs:"center"}, justifyContent:"space-between",padding:0.3}}>
+              <Button size="small" variant="contained" sx={{backgroundColor: "#ff9100",
+                color: "black",
+                "&:focus": {
+                  backgroundColor: "#ff9100",
+                  color: "black"}, "&:hover": {
+                    backgroundColor: "#ffd180",
+                }}}>
                  Buy Now
                 </Button>
-              </CardActions>
+                <Button size="small" color="primary" variant="contained" sx={{backgroundColor: "#ff9100",
+                color: "black",
+                "&:focus": {
+                  backgroundColor: "#ff9100",
+                  color: "black",
+                },"&:hover": {
+                    backgroundColor: "#ffd180",
+                },}}>
+                  Add to Cart
+                </Button>
+              </Box>
+              </Box>
             </Card> )) : null}
+            </div>
         </div>
     );
 }

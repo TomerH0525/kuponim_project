@@ -16,9 +16,10 @@ import { useNavigate } from 'react-router-dom';
 import User from '../../Models/User';
 import { authStore } from '../../Redux/AuthStore';
 import authService from '../../Services/AuthService';
-import ClientType from '../../Models/ClientType';
+import headerBackground from '../../../Images/backgound-P&R2.jpg'
+import { createTheme, useMediaQuery, useTheme } from '@mui/material';
 
-const pages = ['Home', 'Coupons'];
+const pages = ['Home', 'Coupons','Add Coupon'];
 const settings = ['MyDetails', 'Login', 'Logout'];
 
 
@@ -56,20 +57,37 @@ function Navbar(): JSX.Element {
     })
   }, [loggedUser]);
 
+  
+
+  function navigatePages(pageName: string){
+    switch (pageName) {
+      case "Home":
+        navigate("/")
+        break;
+
+      case "":
+      break;
+
+      default:
+        break;
+    }
+
+    
+  };
 
   return (
-    <AppBar position="sticky" sx={{ backgroundColor: "#f9a825", height: "10%" }}>
-      <Container maxWidth={false} >
+    
+    <AppBar position="static" style={{ backgroundImage: `url(${headerBackground})` }}>
+      <Container maxWidth={false}>
         <Toolbar disableGutters sx={{ marginLeft: 0 }}>
-          {window.innerWidth > 600 ? <img src={"Design-removebg-preview.png"} height={90} width={100} /> : null}
-          
+          <Box sx={{ display:{xs:"none", md:"contents" }}}>
+          <img src={"Design-removebg-preview.png"} height={90} width={100} />
+          </Box>
           <Typography
             variant="h5"
             noWrap
             component="a"
-            onClick={() => navigate("/")}
             sx={{
-              cursor: "pointer",
               mr: 0,
               display: { xs: 'none', md: 'flex' },
               fontFamily: 'monospace',
@@ -107,13 +125,10 @@ function Navbar(): JSX.Element {
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-                color: "black"
-              }}
+
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem key={page} onClick={()=>{handleCloseNavMenu();navigatePages(page)}}>
                   <Typography textAlign="center" sx={{ color: "black" }}>{page}</Typography>
                 </MenuItem>
               ))}
@@ -123,7 +138,6 @@ function Navbar(): JSX.Element {
             variant="h5"
             noWrap
             component="a"
-            href='/'
             sx={{
               display: { xs: 'flex', md: 'none' },
               justifyContent:"center",
@@ -144,7 +158,7 @@ function Navbar(): JSX.Element {
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={ () => {handleCloseNavMenu();navigatePages(page);}}
                 sx={{ my: 4, color: 'black', display: 'block', marginLeft: 0.5 }}
               >
                 {page}
@@ -201,6 +215,7 @@ function Navbar(): JSX.Element {
         </Toolbar>
       </Container>
     </AppBar>
+    
   );
 }
 

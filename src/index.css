@@ -6,7 +6,7 @@ body , html{
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image:url("../public/backgound-P&R.jpg");
+  background-color:#ffe0b2 ;
   opacity: 1;
 }
 
