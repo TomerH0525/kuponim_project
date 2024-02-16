@@ -18,6 +18,7 @@ import { authStore } from '../../Redux/AuthStore';
 import authService from '../../Services/AuthService';
 import headerBackground from '../../../Images/backgound-P&R2.jpg'
 import { createTheme, useMediaQuery, useTheme } from '@mui/material';
+import AddCoupon from '../../Pages/CompanyArea/AddCoupon/AddCoupon';
 
 const pages = ['Home', 'Coupons','Add Coupon'];
 const settings = ['MyDetails', 'Login', 'Logout'];
@@ -39,6 +40,7 @@ function Navbar(): JSX.Element {
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
+  
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
@@ -65,7 +67,10 @@ function Navbar(): JSX.Element {
         navigate("/")
         break;
 
-      case "":
+      case "Add Coupon":
+        navigate("/addCoupon")
+        console.log("balh");
+        
       break;
 
       default:

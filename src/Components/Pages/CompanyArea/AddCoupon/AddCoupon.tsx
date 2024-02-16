@@ -1,5 +1,5 @@
 import "./AddCoupon.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import companyService from "../../../Services/CompanyService";
 import { Box, Button, Input, InputAdornment, InputLabel, MenuItem, Modal, Select, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
@@ -54,15 +54,6 @@ function AddCoupon(): JSX.Element {
       })
   }
 
-  const [open, setOpen] = useState(false);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   const { register, handleSubmit } = useForm<Coupon>();
 
@@ -70,9 +61,8 @@ function AddCoupon(): JSX.Element {
 
   return (
     <div className="AddCoupon">
-      <Button onClick={handleOpen}>Add Coupon</Button>
-      <Modal open={open} onClose={handleClose} sx={{ display: "flex", justifyContent: "center", justifyItems: "center", alignItems: "center" }}>
-        <Box sx={{ backgroundColor: "rgb(255, 253, 231, 0.9)", height: "60%", width: "35%", minWidth: 300, minHeight: 350, overflow: "auto" }}>
+      <Box sx={{ display: "flex", justifyContent: "center", marginTop:"5%"}}>
+        <Box sx={{ backgroundColor: "rgb(255, 253, 231, 0.5)", height: "60%", width: "40%", minWidth: 350, minHeight: 350, overflow: "auto" }}>
           <h2>Add Coupon</h2>
           <form onSubmit={handleSubmit(sendCoupon)} className="AddCustomerForm" >
 
@@ -169,7 +159,7 @@ function AddCoupon(): JSX.Element {
             <Button type="submit" size="large">Submit</Button>
           </form>
         </Box>
-      </Modal>
+      </Box>
     </div>
   );
 }

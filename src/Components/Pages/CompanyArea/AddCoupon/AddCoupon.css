@@ -4,6 +4,8 @@
 	flex-wrap: wrap;
 	justify-content: center;
 	align-items: center;
+	justify-items: center;
+	align-content: center;
 	overflow:auto;
 	gap: 10px;
 	padding-top: 10px;

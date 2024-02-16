@@ -28,12 +28,13 @@ function CouponCard(): JSX.Element {
           <div className="CouponCard">
 			{coupons !== null && coupons !== undefined ? coupons.map((c) => (
       
-              <Card key={c.couponID} sx={{width:{md:"30%",xs:"50%"}, minWidth:{xs:"250px",md:"300px"},maxWidth:{xs:"300px",md:"350px"},backgroundColor:"#fff8e1"
-              ,marginTop:"1.5%",display:"flex",flexDirection:"column",justifyContent:"space-between"}}>
+              <Card key={c.couponID} sx={{width:{md:"30%",xs:"90%"}, minWidth:{xs:"250px",md:"300px"},maxWidth:{md:"350px"},maxHeight:{xs:"10%"},backgroundColor:"#fff8e1"
+              ,margin:{xs:"3%",md:0},marginTop:{md:"1.5%"},display:"flex",flexDirection:"column"}}>
               <Box sx={{width:"100%",height:"100%",textAlign:"center",display:"flex",justifyContent:"center",alignItems:"center"}}>
                 <CardMedia
                   component="img"
                   width="100%"
+                  sx={{maxHeight:{xs:"100%"}}}
                   src={c.image as string}
                   alt={c.title+" coupon preview picture"}
                 />

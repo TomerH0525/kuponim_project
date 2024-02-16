@@ -19,7 +19,7 @@ function CompanyDetails(): JSX.Element {
   
     return (
       <div className="CompanyDetails">
-        <AddCoupon/>
+        {/* <AddCoupon/> */}
       </div>
     );
   }
