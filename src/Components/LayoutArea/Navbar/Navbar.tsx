@@ -17,11 +17,11 @@ import User from '../../Models/User';
 import { authStore } from '../../Redux/AuthStore';
 import authService from '../../Services/AuthService';
 import headerBackground from '../../../Images/backgound-P&R2.jpg'
-import { createTheme, useMediaQuery, useTheme } from '@mui/material';
-import AddCoupon from '../../Pages/CompanyArea/AddCoupon/AddCoupon';
+import ClientType from '../../Models/ClientType';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-const pages = ['Home', 'Coupons','Add Coupon'];
-const settings = ['MyDetails', 'Login', 'Logout'];
+
+let settings = ['MyDetails', 'Login', 'Logout'];
 
 
 function Navbar(): JSX.Element {
@@ -29,6 +29,8 @@ function Navbar(): JSX.Element {
   const navigate = useNavigate();
 
   const [loggedUser, setLoggedUser] = useState<User>(authStore.getState().user);
+
+  const [userPages, setUserPages] = useState<string[]>([]);
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -49,8 +51,20 @@ function Navbar(): JSX.Element {
     setAnchorElUser(null);
   };
   
+
   useEffect(() => {
 
+      switch (loggedUser?.clientType) {
+        case ClientType.Administrator:
+          setUserPages(['Home', 'Admin Panel']);
+          break;
+        case ClientType.Company:
+          setUserPages(['Home', 'Add Coupon']);
+          break;
+
+        default:
+          setUserPages(['Home']);
+      }
 
     authStore.subscribe(() => {
       console.log(authStore.getState().user);
@@ -69,8 +83,14 @@ function Navbar(): JSX.Element {
 
       case "Add Coupon":
         navigate("/addCoupon")
-        console.log("balh");
-        
+        break;
+
+      case "Admin Panel":
+        navigate("/AdminPanel")
+      break;
+
+      case "Login":
+        navigate("/login")
       break;
 
       default:
@@ -132,7 +152,7 @@ function Navbar(): JSX.Element {
               onClose={handleCloseNavMenu}
 
             >
-              {pages.map((page) => (
+              {userPages.map((page) => (
                 <MenuItem key={page} onClick={()=>{handleCloseNavMenu();navigatePages(page)}}>
                   <Typography textAlign="center" sx={{ color: "black" }}>{page}</Typography>
                 </MenuItem>
@@ -160,62 +180,45 @@ function Navbar(): JSX.Element {
             Peel&Reveal
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }}}>
-            {pages.map((page) => (
+            {userPages.map((page) => (
               <Button
                 key={page}
                 onClick={ () => {handleCloseNavMenu();navigatePages(page);}}
-                sx={{ my: 4, color: 'black', display: 'block', marginLeft: 0.5 }}
-              >
+                sx={{ my: 4, color: '#212121', display: 'block', marginLeft: 0.5, backgroundColor:"rgba(238, 238, 238 ,1)" ,fontWeight:700,borderRadius:3,
+                '&:hover': {
+                  backgroundColor: "rgba(189, 189, 189, 1)" }}}
+                >
                 {page}
               </Button>
             ))}
           </Box>
 
           <Box sx={{ flexGrow: 0, display: "flex", gap: 2 }}>
-            {loggedUser !== null ? <span style={{ paddingTop: 10, fontWeight: 700 }}>Hello {loggedUser.name === undefined ? loggedUser.firstName : loggedUser.name} </span> : null
+            {loggedUser !== null ?
+
+             <span style={{ paddingTop: 10, fontWeight: 700 , backgroundColor:"rgba(255, 196, 0 ,1)", borderRadius:15, border:"black 1px solid"
+             ,paddingRight:10,paddingLeft:10,color:"#212121"}}>
+              Hello {loggedUser.name === undefined ? loggedUser.firstName : loggedUser.name} 
+             </span>
+
+              : null
             }
-            <Tooltip title="Open settings">
-
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, marginRight: 1 }}>
-
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" sx={{ border: "black solid", borderWidth: 2 }} />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
+            
+            <Box >
               {settings.map((setting) => (
                 setting === "Login" && loggedUser === null ?
-                <MenuItem key={setting} onClick={() => { handleCloseUserMenu(); navigate("/login"); }} >
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-
-                : setting === "MyDetails" ?
-                  <MenuItem key={setting} onClick={() => { handleCloseUserMenu(); navigate("/myDetails"); }} >
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
+                <Button variant="contained" sx={{ my: 0.4, color: '#212121', display: 'block', marginLeft: 0.5,backgroundColor:"rgb(238, 238, 238)",fontWeight:700,borderRadius:3,
+                '&:hover': {
+                  backgroundColor: "#00c853" }}} key={setting} onClick={() => navigatePages(setting)}>{setting}</Button>
 
                   : setting === "Logout" && loggedUser !== null ?
-                    <MenuItem key={setting} onClick={() => { handleCloseUserMenu(); authService.logout(); }} >
-                      <Typography textAlign="center">{setting}</Typography>
-                    </MenuItem>
-
+                      <Button variant="contained" sx={{ my: 0.4, color: '#212121', display: 'block', marginLeft: 0.5,backgroundColor:"rgb(238, 238, 238)",fontWeight:700,borderRadius:3,
+                      '&:hover': {
+                        backgroundColor: "#ef5350" }}} key={setting} onClick={() => authService.logout()}>{setting}</Button>
+                  
                     : null
               ))}
-            </Menu>
+            </Box>
           </Box>
         </Toolbar>
       </Container>
