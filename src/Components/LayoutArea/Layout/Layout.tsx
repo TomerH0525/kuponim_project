@@ -5,6 +5,7 @@ import Routing from "../Routing/Routing";
 import "./Layout.css";
 import { ToastContainer } from "react-toastify";
 
+
 function Layout(): JSX.Element {
     return (
         <BrowserRouter>
@@ -25,7 +26,7 @@ function Layout(): JSX.Element {
             </footer>
 
         </div>
-        <ToastContainer />
+        <ToastContainer position="bottom-right"/>
         </BrowserRouter>
     );
 }
