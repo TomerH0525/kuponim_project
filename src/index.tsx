@@ -14,6 +14,7 @@ function interceptors(){
       return request;
   })
 }
+
 interceptors();
 
 const root = ReactDOM.createRoot(

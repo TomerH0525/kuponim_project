@@ -43,7 +43,7 @@ function AddCoupon(): JSX.Element {
     }
     console.log("blah blah");
     companyService.addCoupon(coupon)
-      .then((err) => console.log(err))
+      .then((couponId) => {console.log(couponId);navigate("/");})
       .catch(err => {
         errorHandler.showError(err);
         if (err.response && err.response.status == "401") {

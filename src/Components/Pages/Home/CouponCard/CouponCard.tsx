@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import "./CouponCard.css";
 import publicSerivce from "../../../Services/PublicService";
 import Coupon from "../../../Models/Coupon";
-import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typography, createTheme, makeStyles} from "@mui/material";
+import { Box, Button, Card, CardContent, CardMedia, Typography } from "@mui/material";
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 
 
@@ -20,18 +21,20 @@ function CouponCard(): JSX.Element {
         fetchCoupons();
         
       }, []);
-      
+
 
     return (
         <div className="MainDiv" >
           <div className="CouponCard">
 			{coupons !== null && coupons !== undefined ? coupons.map((c) => (
-              <Card key={c.couponID} sx={{width:{md:"30%",xs:"50%"}, minWidth:{xs:"250px"},maxWidth:{xs:"350px",md:"300px"}}}>
-              <Box>
+      
+              <Card key={c.couponID} sx={{width:{md:"30%",xs:"50%"}, minWidth:{xs:"250px",md:"300px"},maxWidth:{xs:"300px",md:"350px"},backgroundColor:"#fff8e1"
+              ,marginTop:"1.5%",display:"flex",flexDirection:"column",justifyContent:"space-between"}}>
+              <Box sx={{width:"100%",height:"100%",textAlign:"center",display:"flex",justifyContent:"center",alignItems:"center"}}>
                 <CardMedia
                   component="img"
-                  height="160"
-                  image={c.image as string}
+                  width="100%"
+                  src={c.image as string}
                   alt={c.title+" coupon preview picture"}
                 />
                 </Box>
@@ -41,8 +44,8 @@ function CouponCard(): JSX.Element {
                     {c.title}
                   </Typography>
                 </CardContent>
-              <Box sx={{display:"flex" , alignItems:{xs:"center"}, justifyContent:"space-between",padding:0.3}}>
-              <Button size="small" variant="contained" sx={{backgroundColor: "#ff9100",
+              <Box sx={{display:"flex" , alignItems:{xs:"center"}, justifyContent:"space-between",margin:1,gap:1,padding:1}}>
+              <Button  variant="contained" sx={{backgroundColor: "#ff9100",width:"auto",height:{md:"45px",xs:"30"},fontSize:{md:"1em",xs:"small"},
                 color: "black",
                 "&:focus": {
                   backgroundColor: "#ff9100",
@@ -51,7 +54,7 @@ function CouponCard(): JSX.Element {
                 }}}>
                  Buy Now
                 </Button>
-                <Button size="small" color="primary" variant="contained" sx={{backgroundColor: "#ff9100",
+                <Button variant="contained" sx={{backgroundColor: "#ff9100",width:{xs:"auto",md:"auto"},height:{md:"45px",xs:"30"},fontSize:"1em",
                 color: "black",
                 "&:focus": {
                   backgroundColor: "#ff9100",
@@ -59,7 +62,7 @@ function CouponCard(): JSX.Element {
                 },"&:hover": {
                     backgroundColor: "#ffd180",
                 },}}>
-                  Add to Cart
+                  <AddShoppingCartIcon/>
                 </Button>
               </Box>
               </Box>
