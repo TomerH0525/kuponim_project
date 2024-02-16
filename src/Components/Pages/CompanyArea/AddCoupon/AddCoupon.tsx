@@ -10,7 +10,6 @@ import { readAndCompressImage } from "browser-image-resizer";
 import { useNavigate } from "react-router-dom";
 import Category from "../../../Models/Category";
 
-
 function AddCoupon(): JSX.Element {
 
   const navigate = useNavigate();
@@ -62,12 +61,12 @@ function AddCoupon(): JSX.Element {
   return (
     <div className="AddCoupon">
       <Box sx={{ display: "flex", justifyContent: "center", marginTop:"5%"}}>
-        <Box sx={{ backgroundColor: "rgb(255, 253, 231, 0.5)", height: "60%", width: "40%", minWidth: 350, minHeight: 350, overflow: "auto" }}>
+        <Box sx={{ backgroundColor: "rgb(255, 253, 231, 0.5)", height: "60%", width: "35%", minWidth: 550, minHeight: 350, overflow: "auto" }}>
           <h2>Add Coupon</h2>
           <form onSubmit={handleSubmit(sendCoupon)} className="AddCustomerForm" >
 
             <TextField
-              sx={{ width: "60%", }}
+              sx={{ width: "60%", maxWidth:{md:"50%"} }}
               label="Title"
               id="title"
               {...register("title")}
@@ -77,7 +76,7 @@ function AddCoupon(): JSX.Element {
             />
 
             <TextField
-              sx={{ width: "60%", minWidth: "200px", }}
+              sx={{ width: "80%", minWidth: "200px", maxWidth:{md:"80%"}}}
               label="Description"
               id="description"
               minRows={5}

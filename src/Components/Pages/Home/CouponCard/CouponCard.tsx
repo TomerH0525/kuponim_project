@@ -46,22 +46,22 @@ function CouponCard(): JSX.Element {
                   </Typography>
                 </CardContent>
               <Box sx={{display:"flex" , alignItems:{xs:"center"}, justifyContent:"space-between",margin:1,gap:1,padding:1}}>
-              <Button  variant="contained" sx={{backgroundColor: "#ff9100",width:"auto",height:{md:"45px",xs:"30"},fontSize:{md:"1em",xs:"small"},
+              <Button  variant="contained" sx={{backgroundColor: "rgba(255, 179, 0 ,1)",width:"auto",height:{md:"45px",xs:"30"},fontSize:{md:"1em",xs:"small"},
                 color: "black",
                 "&:focus": {
-                  backgroundColor: "#ff9100",
+                  backgroundColor: "rgba(255, 145, 0, 1)",
                   color: "black"}, "&:hover": {
-                    backgroundColor: "#ffd180",
+                    backgroundColor: "rgba(255, 145, 0, 1)",
                 }}}>
                  Buy Now
                 </Button>
-                <Button variant="contained" sx={{backgroundColor: "#ff9100",width:{xs:"auto",md:"auto"},height:{md:"45px",xs:"30"},fontSize:"1em",
+                <Button variant="contained" sx={{backgroundColor: "rgba(255, 179, 0 ,1)",width:{xs:"auto",md:"auto"},height:{md:"45px",xs:"30"},fontSize:"1em",
                 color: "black",
                 "&:focus": {
-                  backgroundColor: "#ff9100",
+                  backgroundColor: "rgba(255, 145, 0, 1)",
                   color: "black",
                 },"&:hover": {
-                    backgroundColor: "#ffd180",
+                    backgroundColor: "rgba(255, 145, 0, 1)",
                 },}}>
                   <AddShoppingCartIcon/>
                 </Button>
