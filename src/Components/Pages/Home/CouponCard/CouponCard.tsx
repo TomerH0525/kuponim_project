@@ -28,20 +28,19 @@ function CouponCard(): JSX.Element {
           <div className="CouponCard">
 			{coupons !== null && coupons !== undefined ? coupons.map((c) => (
       
-              <Card key={c.couponID} sx={{width:{md:"30%",xs:"90%"}, minWidth:{xs:"250px",md:"300px"},maxWidth:{md:"350px"},maxHeight:{xs:"10%"},backgroundColor:"#fff8e1"
-              ,margin:{xs:"3%",md:0},marginTop:{md:"1.5%"},display:"flex",flexDirection:"column"}}>
-              <Box sx={{width:"100%",height:"100%",textAlign:"center",display:"flex",justifyContent:"center",alignItems:"center"}}>
+              <Card key={c.couponID} sx={{width:{md:"20%",xs:"90%"}, minWidth:{xs:"250px",md:"300px"},maxWidth:{md:"325px"},maxHeight:{xs:"10%"},backgroundColor:"#fff8e1"
+              ,margin:{xs:"3%",md:0},marginTop:{md:"1.5%"},display:"flex",flexDirection:"column",borderRadius:4}}>
+              <Box sx={{height:"100%",maxHeight:{md:250},width:"100%",textAlign:"center",display:"flex",justifyContent:"center",alignItems:"center"}}>
                 <CardMedia
                   component="img"
-                  width="100%"
-                  sx={{maxHeight:{xs:"100%"}}}
+                  sx={{height: "100%", width: "100%", objectFit: "fill"}}
                   src={c.image as string}
-                  alt={c.title+" coupon preview picture"}
+                  alt={c.title+" preview picture"}
                 />
                 </Box>
                 <Box display="flex" flexDirection="column" flexWrap="wrap" sx={{justifyContent:"space-between"}}>
-                <CardContent>
-                  <Typography variant="h5" component="div" sx={{fontWeight:700,height:100,overflow:"clip",width:"100%"}}>
+                <CardContent >
+                  <Typography variant="h5" component="div" sx={{fontWeight:700,height:100,overflow:"clip",width:"100%",display:"flex",justifyContent:"center",alignItems:"center",justifyItems:"center"}}>
                     {c.title}
                   </Typography>
                 </CardContent>
