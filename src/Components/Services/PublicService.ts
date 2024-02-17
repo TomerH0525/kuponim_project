@@ -10,6 +10,11 @@ class PublicService{
         
     }
 
+    public async getCouponDetails(couponId:any){
+        const response = (await axios.get<Coupon>(appConfig.url+"/coupons/"+couponId))
+        return response.data;
+    }
+
 }
 const publicSerivce = new PublicService;
 export default publicSerivce;

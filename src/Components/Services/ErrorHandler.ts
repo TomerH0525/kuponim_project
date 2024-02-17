@@ -3,11 +3,15 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 class ErrorHandler{
-    
+   
     public showError(err: any){
         if(typeof(err) == 'string'){
             toast.error(err);
         }else if(err.response){
+            if (err.response.status == 403) {
+                toast.error(err.response.data);
+                return 403;
+            }
             toast.error(err.response.data);
         }else if(err.message){
             toast.error(err.message);
