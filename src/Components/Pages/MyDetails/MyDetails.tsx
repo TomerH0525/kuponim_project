@@ -4,7 +4,6 @@ import "./MyDetails.css";
 import { authStore } from "../../Redux/AuthStore";
 import CompanyDetails from "../CompanyArea/CompanyDetails/CompanyDetails";
 import ClientType from "../../Models/ClientType";
-import AdminDetails from "../AdminArea/AdminDetails/AdminDetails";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import CustomerDetails from "../CustomerArea/CustomerDetails/CustomerDetails";
@@ -37,9 +36,7 @@ function MyDetails(): JSX.Element {
     const returnComponent:any = (() =>{
         if(loggedUser !== null && loggedUser !== undefined ) {
             switch (loggedUser.clientType) {
-                case ClientType.Administrator:
-                    return <AdminDetails/>
-    
+
                 case ClientType.Company:
                     return <CompanyDetails/>
     
@@ -48,7 +45,7 @@ function MyDetails(): JSX.Element {
     
                 default:
                     
-                    return <span>Please login to access this page!</span>}
+                    return setLoggedUser(null)}
         }
     })
     
