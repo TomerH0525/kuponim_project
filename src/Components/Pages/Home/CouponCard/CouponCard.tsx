@@ -4,6 +4,7 @@ import publicSerivce from "../../../Services/PublicService";
 import Coupon from "../../../Models/Coupon";
 import { Box, Button, Card, CardContent, CardMedia, Typography } from "@mui/material";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -11,6 +12,7 @@ function CouponCard(): JSX.Element {
     
     const [coupons, setCoupons] = useState<Coupon[]>(null);
     
+    const navigate = useNavigate();
  
 
     useEffect(() => {
@@ -33,14 +35,21 @@ function CouponCard(): JSX.Element {
               <Box sx={{height:"100%",maxHeight:{md:250},width:"100%",textAlign:"center",display:"flex",justifyContent:"center",alignItems:"center"}}>
                 <CardMedia
                   component="img"
-                  sx={{height: "100%", width: "100%", objectFit: "fill"}}
+                  sx={{height: "100%", width: "100%", objectFit: "fill",cursor:"pointer"}}
                   src={c.image as string}
                   alt={c.title+" preview picture"}
+                  onClick={() => navigate("/coupon/"+c.couponID)}
                 />
                 </Box>
                 <Box display="flex" flexDirection="column" flexWrap="wrap" sx={{justifyContent:"space-between"}}>
                 <CardContent >
-                  <Typography variant="h5" component="div" sx={{fontWeight:700,height:100,overflow:"clip",width:"100%",display:"flex",justifyContent:"center",alignItems:"center",justifyItems:"center"}}>
+                  <Typography onClick={() =>navigate("/coupon/"+c.couponID)} variant="h6" component="div" 
+                  sx={{cursor:"pointer",textAlign:"center", fontWeight:700,height:100,overflow:"clip",width:"100%",
+                  display:"flex",justifyContent:"center",alignItems:"center",justifyItems:"center",
+                  '&:hover': {
+                    textDecoration: 'underline'
+                  }
+                  }}>
                     {c.title}
                   </Typography>
                 </CardContent>

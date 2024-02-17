@@ -7,9 +7,7 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -18,7 +16,7 @@ import { authStore } from '../../Redux/AuthStore';
 import authService from '../../Services/AuthService';
 import headerBackground from '../../../Images/backgound-P&R2.jpg'
 import ClientType from '../../Models/ClientType';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import logo from '../../../Images/Design-removebg-preview.png'
 
 
 let settings = ['My Details', 'Login', 'Logout'];
@@ -87,6 +85,10 @@ function Navbar(): JSX.Element {
       case "Companies":
         navigate("/AdminPanel/Companies")
       break;
+      
+      case "My Details":
+        navigate("/MyDetails")
+      break;
 
       default:
         break;
@@ -102,7 +104,7 @@ function Navbar(): JSX.Element {
         <Toolbar disableGutters sx={{ marginLeft: 0 }}>
           
           <Box sx={{ display:{xs:"none", md:"contents" }}}>
-          <img src={"Design-removebg-preview.png"} height={90} width={100} />
+          <img src={logo} height={90} width={100} />
           </Box>
           <Typography
             variant="h5"
@@ -129,12 +131,13 @@ function Navbar(): JSX.Element {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              sx={{ color: "black" }}
+              sx={{ color: "black" ,padding:0}}
             >
-              <MenuIcon />
+              <MenuIcon sx={{padding:0}} />
             </IconButton>
             <Menu
               id="menu-appbar"
+              sx={{padding:0}}
               anchorEl={anchorElNav}
               anchorOrigin={{
                 vertical: 'bottom',
@@ -181,7 +184,7 @@ function Navbar(): JSX.Element {
             {userPages.map((page) => (
               <Button
                 key={page}
-                onClick={ () => {handleCloseNavMenu();navigatePages(page);}}
+                onClick={ () => {navigatePages(page)}}
                 sx={{ color: '#212121', display: 'block',paddingX:3,paddingY:1, backgroundColor:"rgb(238, 238, 238)" ,fontWeight:700,borderRadius:3,
                 '&:hover': {
                   backgroundColor: "rgb(189, 189, 189)" }}}
@@ -217,7 +220,7 @@ function Navbar(): JSX.Element {
                         : setting === "My Details" && loggedUser !== null && loggedUser.clientType === ClientType.Company && ClientType.Customer ? 
                         <Button variant="contained" sx={{ my: 0.4, color: '#212121', display: 'block', marginLeft: 0.5,backgroundColor:"rgb(238, 238, 238)",fontWeight:700,borderRadius:3,
                         '&:hover': {
-                          backgroundColor: "rgb(189, 189, 189)" }}} key={setting} onClick={() => authService.logout()}>{setting}</Button>
+                          backgroundColor: "rgb(189, 189, 189)" }}} key={setting} onClick={() => navigatePages(setting)}>{setting}</Button>
 
                     : null
               ))}
