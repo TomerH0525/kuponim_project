@@ -21,7 +21,7 @@ import ClientType from '../../Models/ClientType';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 
-let settings = ['MyDetails', 'Login', 'Logout'];
+let settings = ['My Details', 'Login', 'Logout'];
 
 
 function Navbar(): JSX.Element {
@@ -33,30 +33,21 @@ function Navbar(): JSX.Element {
   const [userPages, setUserPages] = useState<string[]>([]);
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
-  
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-  
+
 
   useEffect(() => {
 
       switch (loggedUser?.clientType) {
         case ClientType.Administrator:
-          setUserPages(['Home', 'Admin Panel']);
+          setUserPages(['Home', 'Customers','Companies',]);
           break;
         case ClientType.Company:
           setUserPages(['Home', 'Add Coupon']);
@@ -81,16 +72,20 @@ function Navbar(): JSX.Element {
         navigate("/")
         break;
 
-      case "Add Coupon":
-        navigate("/addCoupon")
-        break;
-
-      case "Admin Panel":
-        navigate("/AdminPanel")
-      break;
-
       case "Login":
         navigate("/login")
+      break;
+
+      case "Add Coupon":
+        navigate("/addCoupon")
+      break;
+
+      case "Customers":
+        navigate("/AdminPanel/Customers")
+      break;
+
+      case "Companies":
+        navigate("/AdminPanel/Companies")
       break;
 
       default:
@@ -105,6 +100,7 @@ function Navbar(): JSX.Element {
     <AppBar position="static" style={{ backgroundImage: `url(${headerBackground})` }}>
       <Container maxWidth={false}>
         <Toolbar disableGutters sx={{ marginLeft: 0 }}>
+          
           <Box sx={{ display:{xs:"none", md:"contents" }}}>
           <img src={"Design-removebg-preview.png"} height={90} width={100} />
           </Box>
@@ -114,10 +110,11 @@ function Navbar(): JSX.Element {
             component="a"
             sx={{
               mr: 0,
-              display: { xs: 'none', md: 'flex' },
+              fontSize:"4ex",
+              display: { xs: 'none', md: 'none',lg:"flex" },
               fontFamily: 'monospace',
               fontWeight: 900,
-              letterSpacing: '.2rem',
+              letterSpacing: '.3rem',
               color: "black",
               textDecoration: 'none',
             }}
@@ -125,7 +122,7 @@ function Navbar(): JSX.Element {
             Peel&Reveal
           </Typography>
 
-          <Box sx={{ flexGrow: 0.5, display: { xs: 'flex', md: 'none' }, maxWidth:48 }}>
+          <Box sx={{ display: { xs: 'flex', md: 'flex',lg:"none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -164,14 +161,15 @@ function Navbar(): JSX.Element {
             noWrap
             component="a"
             sx={{
-              display: { xs: 'flex', md: 'none' },
+              display: { xs: 'flex', md: 'flex',lg:"none" },
+              fontSize:{md:"5ex",xs:"4ex"},
               justifyContent:"center",
               alignContent:"center",
               textAlign:"center",
               flexGrow: 1,
               fontFamily: 'monospace',
               fontWeight: 700,
-              letterSpacing: '0rem',
+              letterSpacing: {xs:'0.2rem',md:"0.6rem"},
               color: 'black',
               textDecoration: 'none',
 
@@ -179,32 +177,32 @@ function Navbar(): JSX.Element {
           >
             Peel&Reveal
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }}}>
+          <Box sx={{ flexGrow: 2, display: { xs: 'none', md: 'none', lg:"flex" },marginX:{md:2}, gap:2}}>
             {userPages.map((page) => (
               <Button
                 key={page}
                 onClick={ () => {handleCloseNavMenu();navigatePages(page);}}
-                sx={{ my: 4, color: '#212121', display: 'block', marginLeft: 0.5, backgroundColor:"rgba(238, 238, 238 ,1)" ,fontWeight:700,borderRadius:3,
+                sx={{ color: '#212121', display: 'block',paddingX:3,paddingY:1, backgroundColor:"rgb(238, 238, 238)" ,fontWeight:700,borderRadius:3,
                 '&:hover': {
-                  backgroundColor: "rgba(189, 189, 189, 1)" }}}
+                  backgroundColor: "rgb(189, 189, 189)" }}}
                 >
                 {page}
               </Button>
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0, display: "flex", gap: 2 }}>
+          <Box sx={{ display: "flex", gap: 2, alignItems:"center" }}>
             {loggedUser !== null ?
-
-             <span style={{ paddingTop: 10, fontWeight: 700 , backgroundColor:"rgba(255, 196, 0 ,1)", borderRadius:15, border:"black 1px solid"
-             ,paddingRight:10,paddingLeft:10,color:"#212121"}}>
+    
+             <Typography sx={{ fontWeight: 700 , backgroundColor:"rgb(255, 196, 0)", borderRadius:4, border:"black 1px solid"
+             ,color:"#212121",width:"auto",display:{md:"flex",xs:"none",lg:"flex"},alignItems:"center",justifyContent:"center",p:1.5,fontSize:"2ex"}}>
               Hello {loggedUser.name === undefined ? loggedUser.firstName : loggedUser.name} 
-             </span>
-
+             </Typography>
+           
               : null
             }
             
-            <Box >
+            <Box sx={{display:"flex",flexDirection:"column"}}>
               {settings.map((setting) => (
                 setting === "Login" && loggedUser === null ?
                 <Button variant="contained" sx={{ my: 0.4, color: '#212121', display: 'block', marginLeft: 0.5,backgroundColor:"rgb(238, 238, 238)",fontWeight:700,borderRadius:3,
@@ -215,7 +213,12 @@ function Navbar(): JSX.Element {
                       <Button variant="contained" sx={{ my: 0.4, color: '#212121', display: 'block', marginLeft: 0.5,backgroundColor:"rgb(238, 238, 238)",fontWeight:700,borderRadius:3,
                       '&:hover': {
                         backgroundColor: "#ef5350" }}} key={setting} onClick={() => authService.logout()}>{setting}</Button>
-                  
+
+                        : setting === "My Details" && loggedUser !== null && loggedUser.clientType === ClientType.Company && ClientType.Customer ? 
+                        <Button variant="contained" sx={{ my: 0.4, color: '#212121', display: 'block', marginLeft: 0.5,backgroundColor:"rgb(238, 238, 238)",fontWeight:700,borderRadius:3,
+                        '&:hover': {
+                          backgroundColor: "rgb(189, 189, 189)" }}} key={setting} onClick={() => authService.logout()}>{setting}</Button>
+
                     : null
               ))}
             </Box>
