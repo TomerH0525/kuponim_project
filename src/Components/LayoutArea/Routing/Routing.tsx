@@ -6,6 +6,7 @@ import Home from "../../Pages/Home/Home";
 import AddCoupon from "../../Pages/CompanyArea/AddCoupon/AddCoupon";
 import CouponDetails from "../../Pages/Home/CouponDetails/CouponDetails";
 import NotFoundPage from "../../Pages/NotFoundPage/NotFoundPage";
+import CompanyPanel from "../../Pages/AdminArea/CompanyPanel/CompanyPanel";
 
 function Routing(): JSX.Element {
     return (
@@ -17,6 +18,7 @@ function Routing(): JSX.Element {
                 <Route path="/MyDetails" element={<MyDetails />} />
                 <Route path="/addCoupon" element={<AddCoupon />} />
                 <Route path="/coupon/:couponId" element={<CouponDetails />} />
+                <Route path="/AdminPanel/Companies" element={<CompanyPanel />} />
                 <Route path="*" element={<NotFoundPage/>} />
             </Routes>
         </div>

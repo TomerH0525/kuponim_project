@@ -1,0 +1,46 @@
+import { PayloadAction, configureStore, createSlice } from "@reduxjs/toolkit";
+import Coupon from "../Models/Coupon";
+import Company from "../Models/Company";
+
+export interface AdminCompanyState{
+    companies: Company[];
+}
+
+
+const initState: AdminCompanyState = {
+    companies: []
+  
+}
+
+export const AdminCompanySlice = createSlice({
+    name: "Companies store",
+    initialState: initState,
+    reducers: {
+    fill: (state , action: PayloadAction<Company[]>) => {
+        state.companies = action.payload;
+    },
+    add: (state , action: PayloadAction<Company>) => {
+        state.companies.push(action.payload);
+    },
+    remove: (state , action: PayloadAction<number>) => {
+        state.companies.map((company) => {
+            if (company.id == action.payload) {
+                
+            }
+        })
+    },
+
+
+}})
+
+
+export const { fill } = AdminCompanySlice.actions;
+export default AdminCompanySlice.reducer;
+
+
+export const AdminCompanyStore = configureStore({
+    reducer: AdminCompanySlice.reducer
+})
+
+export type RootState = ReturnType<typeof AdminCompanyStore.getState>
+export type AppDispach = typeof AdminCompanyStore.dispatch
