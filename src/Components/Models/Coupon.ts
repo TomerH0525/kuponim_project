@@ -8,10 +8,9 @@ class Coupon{
     description: string;
     amount: number;
     price: number;
-    startDate: Date;
-    endDate: Date;
+    startDate: Date | string;
+    endDate: Date | string;
     image: string | FileList | File | unknown;
-
 
 }
 

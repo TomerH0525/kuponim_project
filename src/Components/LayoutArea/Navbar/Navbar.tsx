@@ -12,17 +12,43 @@ import MenuItem from '@mui/material/MenuItem';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import User from '../../Models/User';
-import { authStore } from '../../Redux/AuthStore';
+import { authStore, logout } from '../../Redux/AuthStore';
 import authService from '../../Services/AuthService';
 import headerBackground from '../../../Images/backgound-P&R2.jpg'
 import ClientType from '../../Models/ClientType';
 import logo from '../../../Images/Design-removebg-preview.png'
+import { companyStore, companyFill } from '../../Redux/CompanyStore';
+import { customerFill, customerStore } from '../../Redux/CustomerStore';
+import customerService from '../../Services/CustomerService';
+import Customer from '../../Models/Customer';
+import errorHandler from '../../Services/ErrorHandler';
+import companyService from '../../Services/CompanyService';
+import axios from 'axios';
+import publicSerivce from '../../Services/PublicService';
 
 
-let settings = ['My Details', 'Login', 'Logout'];
+
 
 
 function Navbar(): JSX.Element {
+
+function responseInterceptor(){
+  axios.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response && error.response.status === (403)) {
+          if (authStore.getState().user !== (null && undefined)) {
+            authStore.dispatch(logout())
+            console.log("User logged out successfully!");
+          }
+          navigate('/login');
+        }         
+        return Promise.reject(error);
+      }
+    );
+}
+
+  const settings = ['My Details', 'Login', 'Logout'];
 
   const navigate = useNavigate();
 
@@ -42,22 +68,32 @@ function Navbar(): JSX.Element {
 
 
   useEffect(() => {
+    responseInterceptor();
 
       switch (loggedUser?.clientType) {
         case ClientType.Administrator:
-          setUserPages(['Home', 'Customers','Companies',]);
+          setUserPages(['Home', 'Customers','Companies','About']);
           break;
+
         case ClientType.Company:
-          setUserPages(['Home', 'Add Coupon']);
+          setUserPages(['Home', 'Add Coupon','About']);
+          companyService.getCompanyDetails()
+          .then((company) => companyStore.dispatch(companyFill(company)))
+          .catch((err) => errorHandler.showError(err))
+          break;
+
+        case ClientType.Customer:
+          customerService.getCustomerDetails()
+          .then((customer) => customerStore.dispatch(customerFill(customer)))
+          .catch((err) => errorHandler.showError(err))
+          setUserPages(['Home','About']);
           break;
 
         default:
-          setUserPages(['Home']);
+          setUserPages(['Home','About']);
       }
-
-    authStore.subscribe(() => {
-      console.log(authStore.getState().user);
-      
+      // publicSerivce.getAllCoupons()
+    authStore.subscribe(() => {      
       setLoggedUser(authStore.getState().user);
     })
   }, [loggedUser]);
@@ -88,6 +124,10 @@ function Navbar(): JSX.Element {
       
       case "My Details":
         navigate("/MyDetails")
+      break;
+
+      case "About":
+        navigate("/home/about")
       break;
 
       default:
@@ -199,7 +239,7 @@ function Navbar(): JSX.Element {
     
              <Typography sx={{ fontWeight: 700 , backgroundColor:"rgb(255, 196, 0)", borderRadius:4, border:"black 1px solid"
              ,color:"#212121",width:"auto",display:{md:"flex",xs:"none",lg:"flex"},alignItems:"center",justifyContent:"center",p:1.5,fontSize:"2ex"}}>
-              Hello {loggedUser.name === undefined ? loggedUser.firstName : loggedUser.name} 
+              Hello {loggedUser.name === undefined ? loggedUser.firstName+" "+loggedUser.lastName : loggedUser.name} 
              </Typography>
            
               : null
@@ -207,7 +247,7 @@ function Navbar(): JSX.Element {
             
             <Box sx={{display:"flex",flexDirection:"column"}}>
               {settings.map((setting) => (
-                setting === "Login" && loggedUser === null ?
+                setting === "Login" &&  loggedUser === null  ?
                 <Button variant="contained" sx={{ my: 0.4, color: '#212121', display: 'block', marginLeft: 0.5,backgroundColor:"rgb(238, 238, 238)",fontWeight:700,borderRadius:3,
                 '&:hover': {
                   backgroundColor: "#00c853" }}} key={setting} onClick={() => navigatePages(setting)}>{setting}</Button>
@@ -215,14 +255,14 @@ function Navbar(): JSX.Element {
                   : setting === "Logout" && loggedUser !== null ?
                       <Button variant="contained" sx={{ my: 0.4, color: '#212121', display: 'block', marginLeft: 0.5,backgroundColor:"rgb(238, 238, 238)",fontWeight:700,borderRadius:3,
                       '&:hover': {
-                        backgroundColor: "#ef5350" }}} key={setting} onClick={() => authService.logout()}>{setting}</Button>
+                        backgroundColor: "#ef5350" }}} key={setting} onClick={() => {authService.logout(); navigate("/home")}}>{setting}</Button>
 
-                        : setting === "My Details" && loggedUser !== null && loggedUser.clientType === ClientType.Company && ClientType.Customer ? 
+                        : setting === "My Details" && loggedUser !== null && (loggedUser?.clientType === ClientType.Company || loggedUser?.clientType === ClientType.Customer) ? 
                         <Button variant="contained" sx={{ my: 0.4, color: '#212121', display: 'block', marginLeft: 0.5,backgroundColor:"rgb(238, 238, 238)",fontWeight:700,borderRadius:3,
                         '&:hover': {
-                          backgroundColor: "rgb(189, 189, 189)" }}} key={setting} onClick={() => navigatePages(setting)}>{setting}</Button>
+                          backgroundColor: "rgb(189, 189, 189)" }}} key={setting} onClick={() => navigatePages(setting)}>{setting}</Button> : null
 
-                    : null
+                    
               ))}
             </Box>
           </Box>

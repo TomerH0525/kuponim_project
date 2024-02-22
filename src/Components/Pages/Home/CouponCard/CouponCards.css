@@ -1,7 +1,8 @@
-.CouponCard {
+.CouponCards {
     display: flex;
     justify-content:right;
     flex-wrap: wrap;
     padding-right: 1%;
-    gap: 1.5%;
+    gap: 4%;
+    margin-right: 10px;
 }

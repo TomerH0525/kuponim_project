@@ -1,7 +1,6 @@
 import "./AddCoupon.css";
-import { useEffect, useState } from "react";
 import companyService from "../../../Services/CompanyService";
-import { Box, Button, Input, InputAdornment, InputLabel, MenuItem, Modal, Select, TextField } from "@mui/material";
+import { Box, Button, Input, InputAdornment, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import Coupon from "../../../Models/Coupon";
 import errorHandler from "../../../Services/ErrorHandler";
@@ -9,6 +8,7 @@ import { authStore, logout } from "../../../Redux/AuthStore";
 import { readAndCompressImage } from "browser-image-resizer";
 import { useNavigate } from "react-router-dom";
 import Category from "../../../Models/Category";
+import dateFormat from "dateformat";
 
 function AddCoupon(): JSX.Element {
 
@@ -34,23 +34,17 @@ function AddCoupon(): JSX.Element {
   async function sendCoupon(coupon: Coupon) {
 
     if ((coupon.image as FileList).length > 0) {
-      console.log(coupon.image);
       let image = await readAndCompressImage((coupon.image as FileList)[0],configResizeImage);
       coupon.image = await convertToBase64(image);
     } else {
       coupon.image = "";
     }
-    console.log("blah blah");
+
     companyService.addCoupon(coupon)
-      .then((couponId) => {console.log(couponId);navigate("/");})
+      .then((couponId: number) => {
+        navigate("/coupon/"+couponId)})
       .catch(err => {
-        errorHandler.showError(err);
-        if (err.response && err.response.status == "401") {
-          authStore.dispatch(logout());
-          navigate("/login");
-          console.log("expired token or not recognized");
-        }
-      })
+        errorHandler.showError(err)})
   }
 
 
@@ -76,12 +70,12 @@ function AddCoupon(): JSX.Element {
             />
 
             <TextField
+            type=""
               sx={{ width: "80%", minWidth: "200px", maxWidth:{md:"80%"}}}
               label="Description"
               id="description"
               minRows={5}
               multiline={true}
-              maxRows={20}
               {...register("description")}
               InputProps={{
                 startAdornment: <InputAdornment position="start"></InputAdornment>,
@@ -120,6 +114,7 @@ function AddCoupon(): JSX.Element {
                 sx={{ width: "35%", minWidth: "150px" }}
                 type="date"
                 id="startDate"
+                defaultValue={dateFormat(new Date().getTime(),"yyyy-mm-dd")}
                 InputProps={{
                   startAdornment: <InputAdornment position="start"></InputAdornment>,
                 }}

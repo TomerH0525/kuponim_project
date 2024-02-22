@@ -6,7 +6,11 @@ import { useEffect, useState } from "react";
 import errorHandler from "../../../Services/ErrorHandler";
 import Coupon from "../../../Models/Coupon";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import WarehouseIcon from '@mui/icons-material/WarehouseOutlined';
+import { authStore } from "../../../Redux/AuthStore";
+import ClientType from "../../../Models/ClientType";
+import customerService from "../../../Services/CustomerService";
+import { toast } from "react-toastify";
+import { customerStore } from "../../../Redux/CustomerStore";
 
 const CustomButton = styled(Button)({
     backgroundColor: "rgba(255, 179, 0 ,1)",
@@ -27,24 +31,63 @@ const CustomButton = styled(Button)({
 
 function CouponDetails(): JSX.Element {
 
+    let isCustomer: boolean = false;
+    let isCompany: boolean = false;
+    let isAdmin: boolean = false;
+  
+  
+    switch (authStore.getState().user?.clientType) {
+      case ClientType.Customer:
+        isCustomer = true;
+        break;
+  
+      case ClientType.Company:
+        isCompany = true;
+        break;
+  
+      case ClientType.Administrator:
+        isAdmin = true;
+        break;
+  
+      default:
+        isCustomer = false;
+        isCompany = false;
+        isAdmin = false;
+        break;
+    }
+
     const [coupon, setCoupon] = useState<Coupon>(null);
+    const [isPurchased, setIsPurchased] = useState<boolean>(!isCustomer);
 
     const { couponId } = useParams();
-
     const navigate = useNavigate();
 
-    useEffect(() => {
+    const purchaseCoupon = (coupon: Coupon) => {
+        if (isCustomer) {
+          customerService.purchaseCoupon(coupon)
+            .then((msg) =>  {toast.success(msg); navigate("/myDetails")})
+            .catch((err) => errorHandler.showError(err))
+        }
+      }
 
-        console.log(couponId);
-        publicSerivce.getCouponDetails(couponId)
+
+    useEffect(() => {        
+        if (coupon === null) {
+            publicSerivce.getCouponDetails(couponId)
             .then((coupon) => setCoupon(coupon))
-            .catch((err) => {
-                if (errorHandler.showError(err) == 403) {
-                    navigate("/login")
-                }
-            })
-    }, [])
+            .catch((err) => errorHandler.showError(err))
+        }
+        if (customerStore.getState().customer?.coupons?.findIndex((myCoupon) => myCoupon?.couponID === parseInt(couponId)) !== -1){
+            setIsPurchased(true);
+        }
 
+        customerStore.subscribe(() =>{
+            if (customerStore.getState().customer?.coupons?.findIndex((myCoupon) => myCoupon?.couponID === parseInt(couponId)) !== -1){
+                setIsPurchased(true);
+            }
+        })
+
+    }, [isPurchased])
 
     return (
         <Box display={"flex"} sx={{ alignItems: "center", justifyContent: "center"
@@ -96,9 +139,10 @@ function CouponDetails(): JSX.Element {
                                 </Box>
 
                                 <Box display={"flex"} sx={{ justifyContent: "center", gap: 4, flexDirection: "row", width: "100%" }}>
-                                    <CustomButton >  Buy Now  </CustomButton>
-                                    <CustomButton >  <AddShoppingCartIcon fontSize="large" />  </CustomButton>
+                                    <CustomButton onClick={() => purchaseCoupon(coupon)} disabled={isPurchased} sx={{ "&.Mui-disabled":{color: isCustomer ? "green" : null}}} > {isPurchased ? isCustomer ? "Owned" : "Buy Now" : "Buy Now"} </CustomButton>
+                                    <CustomButton disabled={isPurchased}>  <AddShoppingCartIcon fontSize="large" />  </CustomButton>
                                 </Box>
+                                {isCustomer || isAdmin || isCompany ? null : <Typography color="red" fontWeight={700} textAlign="center" marginTop={2} >Please sign in to purchase</Typography>}
                             </Box>
                         </div>
                     </Box>

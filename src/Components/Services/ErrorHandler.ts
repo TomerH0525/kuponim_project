@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { authStore, logout } from '../Redux/AuthStore';
 
 
 class ErrorHandler{
@@ -10,7 +11,8 @@ class ErrorHandler{
         }else if(err.response){
             if (err.response.status == 403) {
                 toast.error(err.response.data);
-                return 403;
+                authStore.dispatch(logout());
+                return 403
             }
             toast.error(err.response.data);
         }else if(err.message){

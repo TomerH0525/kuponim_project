@@ -1,6 +1,5 @@
 import axios from "axios";
 import { authStore, logout } from "../Redux/AuthStore";
-import { useNavigate } from "react-router-dom";
 
 // before sending request it will do these methods before sending (adding ,removing, checking)
 class ClientInterceptor{
@@ -21,7 +20,6 @@ class ClientInterceptor{
     }
 
     public responseInterceptor(){
-        const navigate = useNavigate();
         axios.interceptors.response.use(
             (response) => response,
             (error) => {
@@ -29,7 +27,7 @@ class ClientInterceptor{
                 // Redirect to the login page or handle token expiration
                 console.log("lsadsad");
                 
-                navigate('/login'); // Replace with your login route
+                // navigate('/login'); // Replace with your login route
                 authStore.dispatch(logout())
               } else {
                 // Log other errors

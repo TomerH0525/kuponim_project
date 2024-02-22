@@ -4,10 +4,12 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import Layout from './Components/LayoutArea/Layout/Layout';
 import 'react-toastify/dist/ReactToastify.css';
-import { authStore } from './Components/Redux/AuthStore';
+import { authStore, logout } from './Components/Redux/AuthStore';
 import axios from 'axios';
+import clientInterceptor from './Components/Services/Interceptor';
+import { useNavigate } from 'react-router-dom';
 
-function interceptors(){
+function tokenInterceptor(){
   axios.interceptors.request.use(request => {
       if(authStore.getState().token.length > 0)
           request.headers["Authorization"] = /*"Bearer " + */authStore.getState().token;
@@ -15,7 +17,9 @@ function interceptors(){
   })
 }
 
-interceptors();
+
+
+tokenInterceptor();
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -23,7 +27,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Layout/>
-  </React.StrictMode>
+  </React.StrictMode> 
 );
 
 // If you want to start measuring performance in your app, pass a function
