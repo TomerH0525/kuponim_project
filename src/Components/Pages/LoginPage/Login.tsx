@@ -24,7 +24,7 @@ function Login(): JSX.Element {
   const [loading, setLoading] = useState(false);
 
 
-  const { register, handleSubmit, formState } = useForm<User>({ mode: "onTouched" });
+  const { register, handleSubmit, formState } = useForm<User>({ mode: "onBlur" });
 
   const navigate = useNavigate();
 

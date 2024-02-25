@@ -220,14 +220,10 @@ function Home(): JSX.Element {
             value={filters.category}
             onChange={(event) => {
               const value = Number(event.target.value);
-              if (categoryTimeoutId.current)
-                clearTimeout(categoryTimeoutId.current);
-              categoryTimeoutId.current = setTimeout(() => {
                 setFilters((prevFilters) => ({
                   ...prevFilters,
                   category: value,
                 }));
-              }, 200);
             }}
           >
             <MenuItem value={-1}>All Categories</MenuItem>
