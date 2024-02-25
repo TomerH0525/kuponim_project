@@ -23,6 +23,8 @@ function CouponCards(props: { coupons: Coupon[]; }): JSX.Element {
 
   const { coupons } = props;
 
+  const [flag, setFlag] = useState<boolean>(false);
+
   const navigate = useNavigate();
 
   let isCouponPurchased = false;
@@ -37,6 +39,9 @@ function CouponCards(props: { coupons: Coupon[]; }): JSX.Element {
         purchaseButton = "Buy Now"
         isCouponPurchased = false;
       }
+    }else{
+      purchaseButton = "Buy Now"
+      isCouponPurchased = false;
     }
     return isCouponPurchased;
   }
@@ -51,6 +56,29 @@ function CouponCards(props: { coupons: Coupon[]; }): JSX.Element {
   }
 
   useEffect(() => {
+    switch (authStore.getState().user?.clientType) {
+      case ClientType.Customer:
+        isCustomer = true;
+        break;
+  
+      case ClientType.Company:
+        isCompany = true;
+        break;
+  
+      case ClientType.Administrator:
+        isAdmin = true;
+        break;
+  
+      default:
+        isCustomer = false;
+        isCompany = false;
+        isAdmin = false;
+        break;
+    }
+
+    customerStore.subscribe(() => {
+      setFlag(!flag)
+    })
 
     authStore.subscribe(() => {
       switch (authStore.getState().user?.clientType) {
@@ -72,8 +100,9 @@ function CouponCards(props: { coupons: Coupon[]; }): JSX.Element {
           isAdmin = false;
           break;
       }
+      setFlag(!flag)
     })
-  },[])
+  },[flag])
 
 
 
@@ -108,7 +137,7 @@ function CouponCards(props: { coupons: Coupon[]; }): JSX.Element {
                   {c.title}
                 </Typography>
               </CardContent>
-              {isCustomer || isAdmin || isCompany ? null : <Typography fontWeight="700" color="red" textAlign="center">Please sign in to purchase!</Typography>}
+              {(isCustomer || isAdmin || isCompany) ? null : <Typography fontWeight="700" color="red" textAlign="center">Please sign in to purchase!</Typography>}
               <Box sx={{ display: "flex", alignItems: { xs: "center" }, justifyContent: "space-between", margin: 1, gap: 1, padding: 1 }}>
                 <Button onClick={() => purchaseCoupon(c)} disabled={isCustomer ? isPurchased(c.couponID) ? true : false : true} variant="contained" sx={{
                   backgroundColor: "rgba(255, 179, 0 ,1)", width: "auto", height: { md: "45px", xs: "30" }, fontSize: { md: "1em", xs: "small" },
@@ -125,7 +154,7 @@ function CouponCards(props: { coupons: Coupon[]; }): JSX.Element {
                 }} >
                   {purchaseButton}
                 </Button>
-                <Button variant="contained" disabled={isCustomer ? (isCouponPurchased ? true : false) : true} sx={{
+                <Button variant="contained" disabled={isCustomer ? isCouponPurchased ? true : false : true} sx={{
                   backgroundColor: "rgba(255, 179, 0 ,1)", width: { xs: "auto", md: "auto" }, height: { md: "45px", xs: "30" }, fontSize: "1em",
                   color: "black",
                   "&:focus": {

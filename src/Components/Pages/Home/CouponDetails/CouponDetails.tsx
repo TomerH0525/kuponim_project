@@ -65,7 +65,7 @@ function CouponDetails(): JSX.Element {
     const purchaseCoupon = (coupon: Coupon) => {
         if (isCustomer) {
           customerService.purchaseCoupon(coupon)
-            .then((msg) =>  {toast.success(msg); navigate("/myDetails")})
+            .then((msg) =>  {toast.success(msg); navigate("/home")})
             .catch((err) => errorHandler.showError(err))
         }
       }
